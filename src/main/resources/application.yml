@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    username: osago
+    password: uzb
+    url: jdbc:oracle:thin:@10.10.10.3:1521:OSAGO
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
+#swagger uchun
+#springdoc:
+#  api-docs:
+#    path: /api-docs
+#  swagger-ui:
+#    config-url: file:/path/to/openapi.yaml
+#    operations-sorter: method
+#    tags-sorter: alpha
+
+
+#tokenni amal qilish muddati (sutkalarda)
+token:
+  expiration:
+    time: 720
+  #security key token
+  security:
+    key: TokenniKeyiHechkimgaBerma123654
+
+#serverdagi errorlarni korsatishi uchun
+server:
+  error:
+    include-binding-errors: always
+  port: 8080
