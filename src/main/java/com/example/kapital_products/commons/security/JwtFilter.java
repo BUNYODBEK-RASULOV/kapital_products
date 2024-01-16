@@ -3,6 +3,7 @@ package com.example.kapital_products.commons.security;
 
 
 import com.example.kapital_products.commons.config.Md5Encoder;
+import com.example.kapital_products.commons.exceptions.ForbiddenException;
 import com.example.kapital_products.commons.payload.response.ApiResponse;
 import com.example.kapital_products.commons.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,7 +52,11 @@ public class JwtFilter extends OncePerRequestFilter {
                     return;
                 }
 
-                UserDetails userDetails = authService.loadUserByUsername(username);
+                UserDetails userDetails ;
+
+                try { userDetails = authService.loadUserByUsername(username);}
+                catch (Exception e){responseWrite(response, invalidToken); return;}
+
                 if (check(userDetails)) {
                     responseWrite(response, checkUser);
                     return;
@@ -66,8 +71,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 byte[] decodedBytes = Base64.getDecoder().decode(token);
                 String credentials = new String(decodedBytes);
                 String[] usernameAndPassword = credentials.split(":");
-                UserDetails userDetails = authService.loadUserByUsername(usernameAndPassword[0].toUpperCase());
+                UserDetails userDetails ;
+                try { userDetails = authService.loadUserByUsername(usernameAndPassword[0].toUpperCase());}
+                catch (Exception e) {responseWrite(response,invalidToken); return; }
                 if (md5Encoder.matches(usernameAndPassword[1].toUpperCase(),userDetails.getPassword())){
+                    if (check(userDetails)) { responseWrite(response, checkUser); return; }
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }else {

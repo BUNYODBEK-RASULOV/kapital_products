@@ -4,10 +4,12 @@ package com.example.kapital_products.commons.config;
 import com.example.kapital_products.commons.security.JwtFilter;
 import com.example.kapital_products.commons.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,10 +34,16 @@ public class SecurityConfig  {
     private final AuthService authService;
     private final JwtFilter jwtFilter;
 
+    @Value("${springdoc.api-docs.path:}")
+    private String swaggerDocUrl;
+
+    @Value("${springdoc.swagger-ui.path:}")
+    private String swaggerUrl;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        String [] path= {"/swagger-ui/**","/v3/api-docs/**","/api/products/auth/login/**"};
+        String [] path= {"/swagger-ui/**",swaggerUrl,swaggerDocUrl+"/**","/api/products/auth/login/**"};
         http
                 .csrf()
                 .disable()
@@ -48,6 +56,7 @@ public class SecurityConfig  {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

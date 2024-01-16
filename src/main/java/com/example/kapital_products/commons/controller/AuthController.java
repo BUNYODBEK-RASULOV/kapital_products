@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +29,9 @@ public class AuthController {
 
     @Operation(summary = "Get token by login password")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "completed successfully",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class)) })})
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "completed successfully")})
     @PostMapping("/login")
-    public HttpEntity<?> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        return ResponseEntity.ok(authService.loginUser(loginDTO));
+    public ApiResponse loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+        return authService.loginUser(loginDTO);
     }
 }

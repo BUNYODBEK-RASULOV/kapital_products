@@ -7,11 +7,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResponseEnum {
 
-    BEARER("Bearer "),
-    BASIC("Basic "),
-    SUCCESS("Succes"),
-    YOUR_TOKEN("Your token"),
+    BEARER(0,"Bearer "),
+    BASIC(0,"Basic "),
+    SUCCESS(0,"Successful"),
+    YOUR_TOKEN(0,"Your token"),
+    LOG_PAS_ERROR(403,"login or password error"),
 
-    ERROR("error");
+    ERROR(-1,"error");
+
+    private final Integer result;
     private final String text;
+
 }

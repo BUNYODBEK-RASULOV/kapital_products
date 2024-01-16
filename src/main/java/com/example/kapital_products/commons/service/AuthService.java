@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,13 +37,10 @@ public class AuthService implements UserDetailsService {
     }
 
 
-//    qayta ko'rish kerak bu joyini'
     public ApiResponse loginUser(LoginDTO loginDTO) {
 
         try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginDTO.getLogin(),
-                    loginDTO.getPassword()
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getLogin(), loginDTO.getPassword()
             ));
             UserEntity user = (UserEntity) authenticate.getPrincipal();
             if (user.getToken() == null || !user.getToken().startsWith(BEARER.getText()) || jwtProvider.getUsernameFromToken(user.getToken().substring(7)) == null) {
@@ -52,9 +48,9 @@ public class AuthService implements UserDetailsService {
                 user.setToken(BEARER.getText() + token);
                 userRepository.save(user);
             }
-            return new ApiResponse( 0, user.getToken());
-        }catch (BadCredentialsException badCredentialsException){
-            return new ApiResponse(-1,"login or password error");
+            return new ApiResponse(YOUR_TOKEN.getResult(), user.getToken());
+        }catch (Exception e){
+            return new ApiResponse(LOG_PAS_ERROR.getResult(), LOG_PAS_ERROR.getText());
         }
 
     }

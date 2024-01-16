@@ -1,6 +1,7 @@
 package com.example.kapital_products.commons.exceptions;
 
 
+import com.example.kapital_products.commons.payload.enams.ResponseEnum;
 import com.example.kapital_products.commons.payload.response.ApiResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,21 +24,12 @@ import java.util.Map;
 public class ExceptionHandle extends ResponseEntityExceptionHandler {
     private static final Logger logger = LogManager.getLogger(ExceptionHandle.class);
 
-    @ExceptionHandler(ForbiddenException.class)
-    public ApiResponse handleForbiddenException(ForbiddenException ex) {
-        logger.error("An error occurred: ",ex);
-        return new ApiResponse(403,ex.getMessage());
-    }
-
-
-
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ApiResponse ProviderException(Exception ex) {
         logger.error("An error occurred: ",ex);
-        return new ApiResponse(-1,ex.toString());
+        return new ApiResponse(ResponseEnum.ERROR.getResult(),ex.getMessage());
     }
-
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -50,6 +42,6 @@ public class ExceptionHandle extends ResponseEntityExceptionHandler {
         StringBuilder st=new StringBuilder();
         errors.forEach((key,value) -> { st.append(key).append(" ").append(value); });
         logger.error("handle Method Argument Not Valid :",ex);
-        return new ResponseEntity<>(new ApiResponse(404,st.toString()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST.value(),st.toString()),HttpStatus.BAD_REQUEST);
     }
 }

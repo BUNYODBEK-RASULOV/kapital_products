@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,25 @@ public class OpenAPI30Configuration {
     private static final String SECURITY_SCHEME_NAME_BASIC = "basicAuth";
     private static final String SECURITY_SCHEME_NAME_BEARER = "bearerAuth";
 
+
+//    @Bean
+//    public GroupedOpenApi v1Api() {
+//        return GroupedOpenApi.builder()
+//                .group("v1")
+//                .pathsToMatch("/api/products/**","/api/v1/**")
+//                .build();
+//    }
+
+    @Bean
+    public GroupedOpenApi Api() {
+        return GroupedOpenApi.builder()
+                .group("all")
+                .pathsToMatch("/api/**")
+                .build();
+    }
+
+
+//    for auth
     @Bean
     public OpenAPI customizeOpenAPI() {
         return new OpenAPI()
@@ -39,6 +59,7 @@ public class OpenAPI30Configuration {
                 .in(SecurityScheme.In.HEADER);
     }
 
+
     private SecurityRequirement createBearerSecurityRequirement() {
         SecurityRequirement requirement = new SecurityRequirement();
         requirement.addList(SECURITY_SCHEME_NAME_BEARER);
@@ -50,4 +71,5 @@ public class OpenAPI30Configuration {
         requirement.addList(SECURITY_SCHEME_NAME_BASIC);
         return requirement;
     }
+
 }

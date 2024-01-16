@@ -15,8 +15,8 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args)  {
-        Optional<UserEntity> byId = userRepository.findByTbLogin("RASULOV");
-        System.out.println("http://api-server.insonline.uz//swagger-ui/index.html");
+        Optional<UserEntity> byId = userRepository.findByTbLogin("BUNYOD");
+        System.out.println("https://openapi.ksc.uz/swagger");
         if (byId.isPresent())
             System.out.println(byId.get().getTbLogin());
         else

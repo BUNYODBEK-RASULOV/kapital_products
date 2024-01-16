@@ -2,7 +2,15 @@ spring:
   datasource:
     username: osago
     password: uzb
-    url: jdbc:oracle:thin:@10.10.10.3:1521:OSAGO
+    url: jdbc:oracle:thin:@10.10.1.204:1521:OSAGO
+
+
+  servlet:
+    multipart:
+#      one file size
+      max-file-size: 10MB
+#      request size
+      max-request-size: 50MB
 
 
   jpa:
@@ -12,13 +20,12 @@ spring:
 
 
 #swagger uchun
-#springdoc:
-#  api-docs:
-#    path: /api-docs
-#  swagger-ui:
-#    config-url: file:/path/to/openapi.yaml
-#    operations-sorter: method
-#    tags-sorter: alpha
+springdoc:
+  api-docs:
+    path: /swagger.json
+  swagger-ui:
+    path: /swagger
+
 
 
 #tokenni amal qilish muddati (sutkalarda)
@@ -27,7 +34,7 @@ token:
     time: 720
   #security key token
   security:
-    key: TokenniKeyiHechkimgaBerma123654
+    key: Kapital123Sugurta
 
 #serverdagi errorlarni korsatishi uchun
 server:

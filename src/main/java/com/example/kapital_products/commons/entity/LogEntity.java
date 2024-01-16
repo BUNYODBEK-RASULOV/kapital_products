@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class LogEntity {
     private int id;
 
     @Column(name = "LOG_DATE")
-    private Date logDate;
+    private LocalDateTime logDate=LocalDateTime.now();
 
     @Column(name = "USER_ID")
     private Integer userId;

@@ -64,9 +64,7 @@ public class UserEntity implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return this.tbPassfrom.isBefore(LocalDate.now());
-    }
+    public boolean isAccountNonExpired() { return this.tbPassfrom.isBefore(LocalDate.now()); }
 
     @Override
     public boolean isAccountNonLocked() {
