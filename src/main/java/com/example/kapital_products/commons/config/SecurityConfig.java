@@ -43,7 +43,7 @@ public class SecurityConfig  {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        String [] path= {"/swagger-ui/**",swaggerUrl,swaggerDocUrl+"/**","/api/products/auth/login/**"};
+        String [] path= {"/swagger-ui/**",swaggerUrl,swaggerDocUrl+"/**","/users/**","/api/products/auth/login/**"};
         http
                 .csrf()
                 .disable()
